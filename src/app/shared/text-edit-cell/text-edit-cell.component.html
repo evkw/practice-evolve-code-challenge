@@ -1,0 +1,9 @@
+<ng-container *ngIf="!!form && isEditing(); else readView">
+    <form [formGroup]="form">
+        <mat-form-field>
+            <input matInput formControlName="title" />
+        </mat-form-field>
+    </form>
+</ng-container>
+
+<ng-template #readView> {{data[key]}}</ng-template>

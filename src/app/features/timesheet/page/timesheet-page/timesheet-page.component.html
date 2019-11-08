@@ -1,0 +1,72 @@
+<button mat-raised-button (click)="newRow()">New</button>
+<button mat-raised-button (click)="submit()">Submit</button>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+
+	<ng-container matColumnDef="select">
+		<th mat-header-cell *matHeaderCellDef></th>
+		<td mat-cell *matCellDef="let timesheet">
+			<mat-checkbox *ngIf="isActive(timesheet)" (click)="$event.stopPropagation()"
+				(change)="$event ? updateSelection($event, timesheet) : null" [checked]="timesheet.isSelected"
+				[disabled]="timesheet.isEditing">
+			</mat-checkbox>
+		</td>
+	</ng-container>
+
+	<ng-container matColumnDef="state">
+		<th mat-header-cell *matHeaderCellDef>State</th>
+		<td mat-cell *matCellDef="let timesheet"> {{timesheet.state}} </td>
+	</ng-container>
+
+
+
+	<ng-container matColumnDef="title">
+		<th mat-header-cell *matHeaderCellDef> Title </th>
+		<td mat-cell *matCellDef="let timesheet">
+			<app-text-edit-cell [form]="formData" [data]="timesheet" key="title"></app-text-edit-cell>
+		</td>
+	</ng-container>
+
+
+	<ng-container matColumnDef="type">
+		<th mat-header-cell *matHeaderCellDef> Type </th>
+		<td mat-cell *matCellDef="let timesheet">
+			{{timesheet.type}}
+		</td>
+	</ng-container>
+
+	<ng-container matColumnDef="duration">
+		<th mat-header-cell *matHeaderCellDef> Duration </th>
+		<td mat-cell *matCellDef="let timesheet"> {{timesheet.duration}} </td>
+	</ng-container>
+
+	<ng-container matColumnDef="hourlyRate">
+		<th mat-header-cell *matHeaderCellDef> Hourly Rate </th>
+		<td mat-cell *matCellDef="let timesheet"> {{timesheet.hourlyRate}} </td>
+	</ng-container>
+
+	<ng-container matColumnDef="total">
+		<th mat-header-cell *matHeaderCellDef> Total </th>
+		<td mat-cell *matCellDef="let timesheet"> {{timesheet.total}} </td>
+	</ng-container>
+
+	<ng-container matColumnDef="menu">
+		<th mat-header-cell *matHeaderCellDef></th>
+		<td mat-cell *matCellDef="let timesheet">
+			<ng-container *ngIf="isEditing(timesheet)">
+				<button mat-button (click)="save(timesheet)">Save</button>
+				<button mat-button (click)="cancel(timesheet)">Cancel</button>
+			</ng-container>
+
+			<ng-container *ngIf="isActive(timesheet)">
+				<button mat-button (click)="edit(timesheet)">Edit</button>
+				<button mat-button (click)="delete(timesheet.id)">Delete</button>
+			</ng-container>
+		</td>
+	</ng-container>
+
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
