@@ -1,20 +1,16 @@
 import {
   ActionReducer,
   ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
   MetaReducer
 } from '@ngrx/store';
+import { storeLogger } from 'ngrx-store-logger';
 import { environment } from 'src/environments/environment';
 
+export const reducers: ActionReducerMap<any> = { };
 
-export interface State {
-
+export function logger(reducer: ActionReducer<any>): any {
+  // default, no options
+  return storeLogger()(reducer);
 }
 
-export const reducers: ActionReducerMap<State> = {
-
-};
-
-
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<any>[] = !environment.production ? [logger] : [];

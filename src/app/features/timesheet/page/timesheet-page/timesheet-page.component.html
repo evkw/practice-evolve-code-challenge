@@ -1,8 +1,7 @@
 <button mat-raised-button (click)="newRow()">New</button>
 <button mat-raised-button (click)="submit()">Submit</button>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
+<table mat-table [dataSource]="dataSource$ | async" class="mat-elevation-z8">
 
 	<ng-container matColumnDef="select">
 		<th mat-header-cell *matHeaderCellDef></th>
@@ -18,8 +17,6 @@
 		<th mat-header-cell *matHeaderCellDef>State</th>
 		<td mat-cell *matCellDef="let timesheet"> {{timesheet.state}} </td>
 	</ng-container>
-
-
 
 	<ng-container matColumnDef="title">
 		<th mat-header-cell *matHeaderCellDef> Title </th>

@@ -124,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "timesheet"
+    }
+  },
+  "defaultProject": "timesheet",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
