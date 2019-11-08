@@ -8,18 +8,15 @@ import { IsEditable } from '../models';
   styleUrls: ['./text-edit-cell.component.css']
 })
 export class TextEditCellComponent<T extends IsEditable> implements OnInit {
-
   @Input() form: FormGroup;
   @Input() key: string;
   @Input() data: T;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   isEditing() {
     return this.data.isEditing;
   }
-
 }
