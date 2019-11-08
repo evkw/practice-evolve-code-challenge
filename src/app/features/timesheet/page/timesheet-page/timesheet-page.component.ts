@@ -8,6 +8,7 @@ import { Timesheet } from '../../models';
 import { TimesheetState } from '../../store/reducers/timesheet.reducer';
 import { selectTimesheetEntries } from '../../store/selectors/timesheet.selector';
 import * as actions from '../../store/actions';
+import { DraftRowId, TimesheetStates } from '@features/timesheet/constants';
 
 @Component({
   selector: 'app-timesheet-page',
@@ -67,7 +68,7 @@ export class TimesheetPageComponent implements OnInit {
   }
 
   isDraft(timesheet: Timesheet) {
-    return timesheet.id === '-1';
+    return timesheet.id === DraftRowId;
   }
 
   isEditing(timesheet: Timesheet) {
@@ -75,7 +76,7 @@ export class TimesheetPageComponent implements OnInit {
   }
 
   isActive(timesheet: Timesheet) {
-    return !this.isDraft(timesheet) && !this.isEditing(timesheet) && timesheet.state === 'Active';
+    return !this.isDraft(timesheet) && !this.isEditing(timesheet) && timesheet.state === TimesheetStates.Active;
   }
 
 }

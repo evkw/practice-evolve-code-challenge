@@ -30,8 +30,7 @@ export class TimesheetEffects {
                 new actions.LoadTimesheetsStart()
             ]),
             catchError(error => of(new actions.SaveTimesheetDraftFailure(error)))
-        )
-        )
+        ))
     );
 
     @Effect()

@@ -1,9 +1,10 @@
 import { Timesheet } from '../../models';
 import * as actions from '../actions';
+import { DraftRowId } from '@features/timesheet/constants';
 
 export const timesheetFeatureKey = 'timesheet';
 
-const draft: Timesheet = { id: '-1', state: null, title: null, type: null, duration: 0, hourlyRate: 250.50, total: 0, isEditing: true, isSelected: false };
+const draft: Timesheet = { id: DraftRowId, state: null, title: null, type: null, duration: 0, hourlyRate: 250.50, total: 0, isEditing: true, isSelected: false };
 
 export interface TimesheetState {
   loading: boolean;
@@ -48,7 +49,7 @@ export function reducer(state: TimesheetState = initialState, action: actions.Ti
     case actions.TimesheetActionTypes.CancelTimesheetDraft: {
       return {
         ...state,
-        entries: state.entries.filter(data => data.id !== '-1')
+        entries: state.entries.filter(data => data.id !== DraftRowId)
       }
     }
 
@@ -85,5 +86,5 @@ export function reducer(state: TimesheetState = initialState, action: actions.Ti
 
 export const selectLoaded = (state: TimesheetState) => state.loaded;
 export const selectTimesheetEntries = (state: TimesheetState) => state.entries;
-export const selectTimesheetDraft = (state: TimesheetState) => state.entries.find(data => data.id === '-1');
+export const selectTimesheetDraft = (state: TimesheetState) => state.entries.find(data => data.id === DraftRowId);
 export const selectSelectedTimesheetEntries = (state: TimesheetState) => state.entries.filter(data => data.isSelected === true);
