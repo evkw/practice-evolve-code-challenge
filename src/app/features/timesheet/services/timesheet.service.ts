@@ -8,8 +8,8 @@ import { TimesheetStates } from '../constants';
 export class TimesheetService {
 
     mockData: Timesheet[] = [
-        { id: UUID.UUID(), state: TimesheetStates.Active, title: 'Task 1', type: 'Telephone Call', duration: 2.10, hourlyRate: 250.50, total: 252.70, isEditing: false, isSelected: false },
-        { id: UUID.UUID(), state: TimesheetStates.Submitted, title: 'Task 2', type: 'Research and Drafting Document', duration: 3.05, hourlyRate: 120.00, total: 390.00, isEditing: false, isSelected: false },
+        { id: UUID.UUID(), state: TimesheetStates.Active, title: 'Task 1', type: 'Telephone Call', duration: 7200, hourlyRate: 250.50, total: 252.70, isEditing: false, isSelected: false },
+        { id: UUID.UUID(), state: TimesheetStates.Submitted, title: 'Task 2', type: 'Research and Drafting Document', duration: 10980, hourlyRate: 120.00, total: 390.00, isEditing: false, isSelected: false },
     ];
 
     getTimesheetEntries() {

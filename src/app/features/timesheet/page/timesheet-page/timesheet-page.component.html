@@ -35,17 +35,17 @@
 
 	<ng-container matColumnDef="duration">
 		<mat-header-cell *matHeaderCellDef class="timesheet-table__cell--size-5 timesheet-table__cell--align-right"> Duration </mat-header-cell>
-		<mat-cell *matCellDef="let timesheet" class="timesheet-table__cell--size-5 timesheet-table__cell--align-right"> {{timesheet.duration}} </mat-cell>
+		<mat-cell *matCellDef="let timesheet" class="timesheet-table__cell--size-5 timesheet-table__cell--align-right"> {{timesheet | timesheetDuration}} </mat-cell>
 	</ng-container>
 
 	<ng-container matColumnDef="hourlyRate">
 		<mat-header-cell *matHeaderCellDef class="timesheet-table__cell--size-8 timesheet-table__cell--align-right"> Hourly Rate </mat-header-cell>
-		<mat-cell *matCellDef="let timesheet" class="timesheet-table__cell--size-8 timesheet-table__cell--align-right"> {{timesheet.hourlyRate}} </mat-cell>
+		<mat-cell *matCellDef="let timesheet" class="timesheet-table__cell--size-8 timesheet-table__cell--align-right"> {{timesheet.hourlyRate | currency}} </mat-cell>
 	</ng-container>
 
 	<ng-container matColumnDef="total">
 		<mat-header-cell *matHeaderCellDef class="timesheet-table__total-cell"> Total </mat-header-cell>
-		<mat-cell *matCellDef="let timesheet" class="timesheet-table__total-cell"> {{timesheet.total}} </mat-cell>
+		<mat-cell *matCellDef="let timesheet" class="timesheet-table__total-cell"> {{timesheet | timesheetTotal | currency}} </mat-cell>
 	</ng-container>
 
 	<ng-container matColumnDef="menu">

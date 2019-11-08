@@ -5,6 +5,8 @@ import { MatTableModule, MatButtonModule, MatInputModule, MatCheckboxModule, Mat
 
 import { TimesheetPageComponent } from './page/timesheet-page/timesheet-page.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TimesheetTotalPipe } from './pipes/timesheet-total.pipe';
+import { TimesheetDurationPipe } from './pipes/timesheet-duration.pipe';
 
 @NgModule({
   imports: [
@@ -16,7 +18,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MatCheckboxModule,
     MatSelectModule,
     SharedModule],
-  declarations: [TimesheetPageComponent],
-  exports: [TimesheetPageComponent]
+  declarations: [TimesheetPageComponent, TimesheetTotalPipe, TimesheetDurationPipe],
+  exports: [TimesheetPageComponent],
+  providers: []
 })
 export class TimesheetModule { }
