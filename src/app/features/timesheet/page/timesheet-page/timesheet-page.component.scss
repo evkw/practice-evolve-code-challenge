@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+}
+
+button {
+  margin: 16px 8px;
+}
+
+.timesheet-table {
+
+  &__menu {
+    border-left: 2px solid rgba(0, 0, 0, .12);
+  }
+
+  &__cell--size-5 {
+    flex: 0 0 5%;
+  }
+
+  &__cell--size-8 {
+    flex: 0 0 8%;
+  }
+
+  &__cell--size-12 {
+    flex: 0 0 12%;
+  }
+
+  &__total-cell {
+    flex: 0 0 8%;
+    justify-content: flex-end;
+    padding-right: 24px;
+  }
+
+  &__cell--align-right {
+    justify-content: flex-end;
+  }
+}

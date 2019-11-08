@@ -13,7 +13,7 @@ import { DraftRowId, TimesheetStates } from '@features/timesheet/constants';
 @Component({
   selector: 'app-timesheet-page',
   templateUrl: './timesheet-page.component.html',
-  styleUrls: ['./timesheet-page.component.css']
+  styleUrls: ['./timesheet-page.component.scss']
 })
 export class TimesheetPageComponent implements OnInit {
 
