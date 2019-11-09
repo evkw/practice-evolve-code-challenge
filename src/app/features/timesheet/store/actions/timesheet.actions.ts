@@ -1,5 +1,10 @@
 import { Action } from '@ngrx/store';
-import { Timesheet, TimesheetUpdateParams, TimesheetEditParams, TimesheetSelectionParams } from '@features/timesheet/models';
+import {
+  Timesheet,
+  TimesheetUpdateParams,
+  TimesheetEditParams,
+  TimesheetSelectionParams
+} from '@features/timesheet/models';
 
 export enum TimesheetActionTypes {
   LoadTimesheetsStart = '[Timesheet] Load Timesheets Start',
@@ -25,7 +30,7 @@ export enum TimesheetActionTypes {
 
   SubmitTimesheetEntriesStart = '[Timesheet] Submit Timesheet Entries Start',
   SubmitTimesheetEntriesSuccess = '[Timesheet] Submit Timesheet Entries Success',
-  SubmitTimesheetEntriesFailure = '[Timesheet] Submit Timesheet Entries Failure',
+  SubmitTimesheetEntriesFailure = '[Timesheet] Submit Timesheet Entries Failure'
 }
 
 export class LoadTimesheetsStart implements Action {
@@ -34,12 +39,12 @@ export class LoadTimesheetsStart implements Action {
 
 export class LoadTimesheetsSuccess implements Action {
   readonly type = TimesheetActionTypes.LoadTimesheetsSuccess;
-  constructor(public payload: Timesheet[]) { }
+  constructor(public payload: Timesheet[]) {}
 }
 
 export class LoadTimesheetsFailure implements Action {
   readonly type = TimesheetActionTypes.LoadTimesheetsFailure;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class CreateTimesheetDraft implements Action {
@@ -74,7 +79,7 @@ export class UpdateTimesheetStart implements Action {
 }
 
 export class UpdateTimesheetSuccess implements Action {
-  readonly type = TimesheetActionTypes.UpdateTimesheetStart;
+  readonly type = TimesheetActionTypes.UpdateTimesheetSuccess;
 }
 
 export class UpdateTimesheetFailure implements Action {

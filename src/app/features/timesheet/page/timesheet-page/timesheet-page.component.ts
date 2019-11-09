@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 
 import { Timesheet } from '../../models';
 import { TimesheetState } from '../../store/reducers/timesheet.reducer';
@@ -28,7 +28,13 @@ export class TimesheetPageComponent implements OnInit {
     'menu'
   ];
   dataSource$: Observable<Timesheet[]>;
+  editingRow$: Observable<Timesheet>;
   formData: FormGroup;
+  editingData: Timesheet;
+
+  formChangeSub: Subscription;
+
+  testList = ['test', 'test2', 'test3'];
 
   constructor(
     private fb: FormBuilder,
@@ -57,6 +63,7 @@ export class TimesheetPageComponent implements OnInit {
   }
 
   edit(timesheet: Timesheet) {
+    this.editingRow$ = of(timesheet);
     this._store.dispatch(
       new actions.SetTimesheetRowEditing({ id: timesheet.id, isEditing: true })
     );
@@ -71,6 +78,18 @@ export class TimesheetPageComponent implements OnInit {
       minutes: [minutes],
       duration: [timesheet.duration],
       hourlyRate: [timesheet.hourlyRate]
+    });
+    this.watchFormChanges();
+  }
+
+  watchFormChanges() {
+    this.formChangeSub = this.formData.valueChanges.subscribe(data => {
+      const { hours, minutes } = data;
+      const newDuration = this._timeHelperSvc.minutesAndHoursToSeconds(
+        hours,
+        minutes
+      );
+      this.editingData = { ...data, duration: newDuration };
     });
   }
 

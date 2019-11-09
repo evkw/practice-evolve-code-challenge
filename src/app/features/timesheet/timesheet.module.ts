@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatTableModule, MatButtonModule, MatInputModule, MatCheckboxModule, MatSelectModule } from '@angular/material';
+import {
+  MatTableModule,
+  MatButtonModule,
+  MatInputModule,
+  MatCheckboxModule,
+  MatSelectModule
+} from '@angular/material';
 
 import { TimesheetPageComponent } from './page/timesheet-page/timesheet-page.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -17,9 +23,14 @@ import { TimesheetDurationPipe } from './pipes/timesheet-duration.pipe';
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
-    SharedModule],
-  declarations: [TimesheetPageComponent, TimesheetTotalPipe, TimesheetDurationPipe],
+    SharedModule
+  ],
+  declarations: [
+    TimesheetPageComponent,
+    TimesheetTotalPipe,
+    TimesheetDurationPipe
+  ],
   exports: [TimesheetPageComponent],
-  providers: []
+  providers: [TimesheetTotalPipe]
 })
-export class TimesheetModule { }
+export class TimesheetModule {}

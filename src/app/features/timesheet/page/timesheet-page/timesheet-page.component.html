@@ -53,7 +53,14 @@
   <ng-container matColumnDef="type">
     <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
     <mat-cell *matCellDef="let timesheet">
-      {{ timesheet.type }}
+      <app-selection-edit-cell
+        [form]="formData"
+        [data]="timesheet"
+        [list]="testList"
+        controlName="type"
+      >
+        {{ timesheet.type }}
+      </app-selection-edit-cell>
     </mat-cell>
   </ng-container>
 
@@ -107,7 +114,12 @@
       Total
     </mat-header-cell>
     <mat-cell *matCellDef="let timesheet" class="timesheet-table__total-cell">
-      {{ timesheet | timesheetTotal | currency }}
+      <ng-container *ngIf="isEditing(timesheet) && !!editingData">
+        {{ editingData | timesheetTotal | currency }}
+      </ng-container>
+      <ng-container *ngIf="!isEditing(timesheet) || !editingData">
+        {{ timesheet | timesheetTotal | currency }}
+      </ng-container>
     </mat-cell>
   </ng-container>
 
@@ -120,15 +132,6 @@
       *matCellDef="let timesheet"
       class="timesheet-table__menu timesheet-table__cell--size-12"
     >
-      <ng-container *ngIf="isEditing(timesheet)">
-        <button mat-button (click)="save(timesheet)">Save</button>
-        <button mat-button (click)="cancel(timesheet)">Cancel</button>
-      </ng-container>
-
-      <ng-container *ngIf="isActive(timesheet)">
-        <button mat-button (click)="edit(timesheet)">Edit</button>
-        <button mat-button (click)="delete(timesheet.id)">Delete</button>
-      </ng-container>
     </mat-cell>
   </ng-container>
 

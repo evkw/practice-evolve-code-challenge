@@ -16,8 +16,4 @@ export class TextEditCellComponent<
   }
 
   ngOnInit() {}
-
-  isEditing() {
-    return this.data.isEditing;
-  }
 }

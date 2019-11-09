@@ -1,0 +1,13 @@
+<ng-container *ngIf="!!form && isEditing(); else readView">
+  <form [formGroup]="form">
+    <mat-form-field>
+      <mat-select [formControlName]="controlName">
+        <mat-option *ngFor="let item of list" [value]="item">{{
+          item
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</ng-container>
+
+<ng-template #readView><ng-content></ng-content></ng-template>

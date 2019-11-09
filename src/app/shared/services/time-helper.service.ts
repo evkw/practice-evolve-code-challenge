@@ -12,12 +12,11 @@ export class TimeHelperService {
     const minutes = Math.floor((seconds % 3600) / 60);
     return { hours, minutes };
   }
-
   minutesToNearest(minutes: number, nearest: number): number {
     return nearest * Math.ceil(minutes / nearest);
   }
 
   minutesAndHoursToSeconds(hours: number, minutes: number): number {
-    return 0;
+    return hours * 3600 + minutes * 60;
   }
 }
