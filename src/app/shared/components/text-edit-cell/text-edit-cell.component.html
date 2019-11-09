@@ -1,0 +1,10 @@
+<ng-container *ngIf="!!form && isEditing(); else readView">
+  <form [formGroup]="form">
+    <mat-form-field>
+      <span matPrefix *ngIf="isCurrency">$</span>
+      <input matInput [formControlName]="controlName" />
+    </mat-form-field>
+  </form>
+</ng-container>
+
+<ng-template #readView><ng-content></ng-content></ng-template>

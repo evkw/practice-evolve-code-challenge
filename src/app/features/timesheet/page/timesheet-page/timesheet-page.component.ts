@@ -9,6 +9,7 @@ import { TimesheetState } from '../../store/reducers/timesheet.reducer';
 import { selectTimesheetEntries } from '../../store/selectors/timesheet.selector';
 import * as actions from '../../store/actions';
 import { DraftRowId, TimesheetStates } from '@features/timesheet/constants';
+import { TimeHelperService } from '@shared/services/time-helper.service';
 
 @Component({
   selector: 'app-timesheet-page',
@@ -16,12 +17,24 @@ import { DraftRowId, TimesheetStates } from '@features/timesheet/constants';
   styleUrls: ['./timesheet-page.component.scss']
 })
 export class TimesheetPageComponent implements OnInit {
-
-  displayedColumns: string[] = ['select', 'state', 'title', 'type', 'duration', 'hourlyRate', 'total', 'menu'];
+  displayedColumns: string[] = [
+    'select',
+    'state',
+    'title',
+    'type',
+    'duration',
+    'hourlyRate',
+    'total',
+    'menu'
+  ];
   dataSource$: Observable<Timesheet[]>;
   formData: FormGroup;
 
-  constructor(private fb: FormBuilder, private _store: Store<TimesheetState>) { }
+  constructor(
+    private fb: FormBuilder,
+    private _store: Store<TimesheetState>,
+    private _timeHelperSvc: TimeHelperService
+  ) {}
 
   ngOnInit() {
     this.dataSource$ = this._store.pipe(select(selectTimesheetEntries));
@@ -32,35 +45,53 @@ export class TimesheetPageComponent implements OnInit {
   }
 
   save(timesheet: Timesheet) {
-    this.isDraft(timesheet) 
-    ? this._store.dispatch(new actions.SaveTimesheetDraftStart())
-    : this._store.dispatch(new actions.UpdateTimesheetStart(this.formData.getRawValue()))
+    this.isDraft(timesheet)
+      ? this._store.dispatch(new actions.SaveTimesheetDraftStart())
+      : this._store.dispatch(
+          new actions.UpdateTimesheetStart(this.formData.getRawValue())
+        );
   }
-
 
   delete(id: string) {
     this._store.dispatch(new actions.DeleteTimesheetStart(id));
   }
 
   edit(timesheet: Timesheet) {
-    this._store.dispatch(new actions.SetTimesheetRowEditing({id: timesheet.id, isEditing: true}));
+    this._store.dispatch(
+      new actions.SetTimesheetRowEditing({ id: timesheet.id, isEditing: true })
+    );
+    const { hours, minutes } = this._timeHelperSvc.secondsToHoursAndMinutes(
+      timesheet.duration
+    );
     this.formData = this.fb.group({
       id: [timesheet.id],
       title: [timesheet.title],
       type: [timesheet.type],
+      hours: [hours],
+      minutes: [minutes],
       duration: [timesheet.duration],
       hourlyRate: [timesheet.hourlyRate]
-    })
+    });
   }
 
   cancel(timesheet: Timesheet) {
-    this.isDraft(timesheet) 
-    ? this._store.dispatch(new actions.CancelTimesheetDraft())
-    :  this._store.dispatch(new actions.SetTimesheetRowEditing({id: timesheet.id, isEditing: false}));
+    this.isDraft(timesheet)
+      ? this._store.dispatch(new actions.CancelTimesheetDraft())
+      : this._store.dispatch(
+          new actions.SetTimesheetRowEditing({
+            id: timesheet.id,
+            isEditing: false
+          })
+        );
   }
 
   updateSelection(event: MatCheckboxChange, timesheet: Timesheet) {
-    this._store.dispatch(new actions.UpdateTimesheetSelection({id: timesheet.id, isSelected: event.checked}));
+    this._store.dispatch(
+      new actions.UpdateTimesheetSelection({
+        id: timesheet.id,
+        isSelected: event.checked
+      })
+    );
   }
 
   submit() {
@@ -76,7 +107,10 @@ export class TimesheetPageComponent implements OnInit {
   }
 
   isActive(timesheet: Timesheet) {
-    return !this.isDraft(timesheet) && !this.isEditing(timesheet) && timesheet.state === TimesheetStates.Active;
+    return (
+      !this.isDraft(timesheet) &&
+      !this.isEditing(timesheet) &&
+      timesheet.state === TimesheetStates.Active
+    );
   }
-
 }

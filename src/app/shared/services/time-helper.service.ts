@@ -16,4 +16,8 @@ export class TimeHelperService {
   minutesToNearest(minutes: number, nearest: number): number {
     return nearest * Math.ceil(minutes / nearest);
   }
+
+  minutesAndHoursToSeconds(hours: number, minutes: number): number {
+    return 0;
+  }
 }

@@ -1,12 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { TimesheetDurationPipe } from './timesheet-duration.pipe';
 import { Timesheet } from '../models';
+import { TimeHelperService } from '@shared/services/time-helper.service';
 
 describe('TimesheetDurationPipe', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('create an instance', () => {
-    const pipe = new TimesheetDurationPipe();
+    const service: TimeHelperService = TestBed.get(TimeHelperService);
+    const pipe = new TimesheetDurationPipe(service);
     expect(pipe).toBeTruthy();
   });
 
@@ -19,40 +21,11 @@ describe('TimesheetDurationPipe', () => {
     ];
     testCases.forEach(testCase => {
       it(`should pipe duration ${testCase.test.duration} to format ${testCase.result}`, () => {
-        const pipe = new TimesheetDurationPipe();
+        const service: TimeHelperService = TestBed.get(TimeHelperService);
+        const pipe = new TimesheetDurationPipe(service);
         expect(pipe.transform(testCase.test as Timesheet)).toEqual(
           testCase.result
         );
-      });
-    });
-  });
-
-  describe('getHours', () => {
-    const testCases = [
-      { test: 3600, result: 1 },
-      { test: 7200, result: 2 },
-      { test: 4500, result: 1 },
-      { test: 156700, result: 43 }
-    ];
-    testCases.forEach(testCase => {
-      it(`should convert seconds ${testCase.test} to hours ${testCase.result}`, () => {
-        const pipe = new TimesheetDurationPipe();
-        expect(pipe.getHours(testCase.test)).toEqual(testCase.result);
-      });
-    });
-  });
-
-  describe('getMinutes', () => {
-    const testCases = [
-      { test: 3660, result: '01' },
-      { test: 1200, result: '20' },
-      { test: 0, result: '00' },
-      { test: 45, result: '00' }
-    ];
-    testCases.forEach(testCase => {
-      it(`should convert remaining seconds ${testCase.test} to minutes ${testCase.result}`, () => {
-        const pipe = new TimesheetDurationPipe();
-        expect(pipe.getMinutes(testCase.test)).toEqual(testCase.result);
       });
     });
   });
