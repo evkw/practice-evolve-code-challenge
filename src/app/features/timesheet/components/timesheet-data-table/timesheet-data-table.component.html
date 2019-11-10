@@ -1,0 +1,149 @@
+{{types | json}}
+
+<mat-table
+  class="timesheet-table"
+  [dataSource]="dataSource"
+  class="mat-elevation-z8"
+>
+  <ng-container matColumnDef="select">
+    <mat-header-cell
+      class="timesheet-table__cell--size-5"
+      *matHeaderCellDef
+    ></mat-header-cell>
+    <mat-cell class="timesheet-table__cell--size-5" *matCellDef="let timesheet">
+      <mat-checkbox
+        *ngIf="isActive(timesheet)"
+        (click)="$event.stopPropagation()"
+        (change)="$event ? updateSelection($event, timesheet) : null"
+        [checked]="timesheet.isSelected"
+        [disabled]="timesheet.isEditing"
+      >
+      </mat-checkbox>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="state">
+    <mat-header-cell class="timesheet-table__cell--size-8" *matHeaderCellDef
+      >State</mat-header-cell
+    >
+    <mat-cell class="timesheet-table__cell--size-8" *matCellDef="let timesheet">
+      {{ timesheet.state }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell class="timesheet-table__cell--size-fill" *matHeaderCellDef>
+      Title
+    </mat-header-cell>
+    <mat-cell
+      class="timesheet-table__cell--size-fill"
+      *matCellDef="let timesheet"
+    >
+      <app-text-edit-cell
+        [form]="formData"
+        [data]="timesheet"
+        controlName="title"
+        [autofocus]="true" 
+      >
+        {{ timesheet.title }}
+      </app-text-edit-cell>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+    <mat-cell *matCellDef="let timesheet">
+      <app-selection-edit-cell
+        [form]="formData"
+        [data]="timesheet"
+        [list]="types"
+        controlName="type"
+      >
+        {{ timesheet.type }}
+      </app-selection-edit-cell>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="duration">
+    <mat-header-cell
+      *matHeaderCellDef
+      class="timesheet-table__cell--size-5 timesheet-table__cell--align-right"
+    >
+      Duration
+    </mat-header-cell>
+    <mat-cell
+      *matCellDef="let timesheet"
+      class="timesheet-table__cell--size-8 timesheet-table__cell--align-right"
+    >
+      <app-duraction-edit-cell
+        [form]="formData"
+        [data]="timesheet"
+        class="timesheet-table__cell--size-8 timesheet-table__cell--align-right"
+      >
+        {{ timesheet | timesheetDuration }}
+      </app-duraction-edit-cell>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="hourlyRate">
+    <mat-header-cell
+      *matHeaderCellDef
+      class="timesheet-table__cell--size-8 timesheet-table__cell--align-right"
+    >
+      Hourly Rate
+    </mat-header-cell>
+
+    <mat-cell
+      *matCellDef="let timesheet"
+      class="timesheet-table__cell--size-8 timesheet-table__cell--align-right"
+    >
+      <app-text-edit-cell
+        [form]="formData"
+        [data]="timesheet"
+        [isCurrency]="true"
+        controlName="hourlyRate"
+        class="timesheet-table__cell--size-8 timesheet-table__cell--align-right"
+      >
+        {{ timesheet.hourlyRate | currency }}
+      </app-text-edit-cell>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="total">
+    <mat-header-cell *matHeaderCellDef class="timesheet-table__total-cell">
+      Total
+    </mat-header-cell>
+    <mat-cell *matCellDef="let timesheet" class="timesheet-table__total-cell">
+      <ng-container *ngIf="isEditing(timesheet) && !!editingData">
+        {{ editingData | timesheetTotal | currency }}
+      </ng-container>
+      <ng-container *ngIf="!isEditing(timesheet) || !editingData">
+        {{ timesheet | timesheetTotal | currency }}
+      </ng-container>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="menu">
+    <mat-header-cell
+      *matHeaderCellDef
+      class="timesheet-table__cell--size-12"
+    ></mat-header-cell>
+    <mat-cell
+      *matCellDef="let timesheet"
+      class="timesheet-table__menu timesheet-table__cell--size-12"
+    >
+      <ng-container *ngIf="isEditing(timesheet)">
+        <button mat-button (click)="save(timesheet)">Save</button>
+        <button mat-button (click)="cancel(timesheet)">Cancel</button>
+      </ng-container>
+
+      <ng-container *ngIf="isActive(timesheet)">
+        <button mat-button (click)="edit(timesheet)">Edit</button>
+        <button mat-button (click)="deleteTimesheet(timesheet)">Delete</button>
+      </ng-container>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>

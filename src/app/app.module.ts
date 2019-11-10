@@ -9,12 +9,19 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { EffectsModule } from '@ngrx/effects';
+import { EntityDataModule } from '@ngrx/data';
+import { entityConfig } from './entity-metadata';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemDataService } from '@core/in-memory-data.service';
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(InMemDataService),
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
@@ -22,7 +29,8 @@ import { EffectsModule } from '@ngrx/effects';
         strictActionImmutability: true,
       }
     }), !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    EntityDataModule.forRoot(entityConfig)
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent]

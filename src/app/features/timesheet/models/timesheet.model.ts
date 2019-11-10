@@ -20,6 +20,11 @@ export interface TimesheetUpdateParams {
   hourlyRate: number;
 }
 
+export interface TimesheetType {
+  id:number;
+  name: string;
+}
+
 export interface TimesheetEditParams {
   id: string;
   isEditing: boolean;

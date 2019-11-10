@@ -6,11 +6,11 @@ export class EditCellBaseComponent<T extends IsEditable> {
   @Input() form: FormGroup;
   @Input() controlName: string;
   @Input() data: T;
+  @Input() autofocus: boolean;
 
   constructor() {}
 
   isEditing() {
-    console.log(this.data);
     return this.data.isEditing;
   }
 }

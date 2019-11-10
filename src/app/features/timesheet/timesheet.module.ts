@@ -13,6 +13,7 @@ import { TimesheetPageComponent } from './page/timesheet-page/timesheet-page.com
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TimesheetTotalPipe } from './pipes/timesheet-total.pipe';
 import { TimesheetDurationPipe } from './pipes/timesheet-duration.pipe';
+import { TimesheetDataTableComponent } from './components/timesheet-data-table/timesheet-data-table.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { TimesheetDurationPipe } from './pipes/timesheet-duration.pipe';
   declarations: [
     TimesheetPageComponent,
     TimesheetTotalPipe,
-    TimesheetDurationPipe
+    TimesheetDurationPipe,
+    TimesheetDataTableComponent
   ],
   exports: [TimesheetPageComponent],
   providers: [TimesheetTotalPipe]

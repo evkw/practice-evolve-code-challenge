@@ -2,7 +2,7 @@
   <form [formGroup]="form">
     <mat-form-field>
       <span matPrefix *ngIf="isCurrency">$</span>
-      <input matInput [formControlName]="controlName" />
+      <input matInput [formControlName]="controlName" appAutoFocus [autofocus]="autofocus" />
     </mat-form-field>
   </form>
 </ng-container>

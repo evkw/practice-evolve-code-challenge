@@ -1,15 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { Timesheet } from '../../models';
-import { TimesheetState } from '../../store/reducers/timesheet.reducer';
-import { selectTimesheetEntries } from '../../store/selectors/timesheet.selector';
-import * as actions from '../../store/actions';
-import { DraftRowId, TimesheetStates } from '@features/timesheet/constants';
-import { TimeHelperService } from '@shared/services/time-helper.service';
+import { Timesheet, TimesheetType } from '../../models';
+import { EntityCollectionService, EntityServices } from '@ngrx/data';
 
 @Component({
   selector: 'app-timesheet-page',
@@ -17,117 +11,47 @@ import { TimeHelperService } from '@shared/services/time-helper.service';
   styleUrls: ['./timesheet-page.component.scss']
 })
 export class TimesheetPageComponent implements OnInit {
-  displayedColumns: string[] = [
-    'select',
-    'state',
-    'title',
-    'type',
-    'duration',
-    'hourlyRate',
-    'total',
-    'menu'
-  ];
+
   dataSource$: Observable<Timesheet[]>;
-  formData: FormGroup;
-  editingData: Timesheet;
+  types$: Observable<string[]>;
 
-  formChangeSub: Subscription;
-
-  testList = ['test', 'test2', 'test3'];
+  timesheetService: EntityCollectionService<Timesheet>;
+  typeService: EntityCollectionService<TimesheetType>;
+  draft: any;
 
   constructor(
-    private fb: FormBuilder,
-    private _store: Store<TimesheetState>,
-    private _timeHelperSvc: TimeHelperService
-  ) {}
+    entityServices: EntityServices,
+
+  ) {
+    this.timesheetService = entityServices.getEntityCollectionService('Timesheet');
+    this.typeService = entityServices.getEntityCollectionService('Type');
+    this.dataSource$ = this.timesheetService.entities$;
+    this.types$ = this.typeService.entities$.pipe(map(data => data.map(item => item.name)));;
+  }
 
   ngOnInit() {
-    this.dataSource$ = this._store.pipe(select(selectTimesheetEntries));
+    this.timesheetService.getAll();
+    this.typeService.getAll()
   }
 
-  newRow() {
-    this._store.dispatch(new actions.CreateTimesheetDraft());
+  onAdd(event: Timesheet) {
+    this.timesheetService.add(event);
   }
 
-  save(timesheet: Timesheet) {
-    this.isDraft(timesheet)
-      ? this._store.dispatch(new actions.SaveTimesheetDraftStart())
-      : this._store.dispatch(
-          new actions.UpdateTimesheetStart(this.formData.getRawValue())
-        );
+  onUpdate(timesheet: Timesheet) {
+    this.timesheetService.update(timesheet);
   }
 
-  delete(id: string) {
-    this._store.dispatch(new actions.DeleteTimesheetStart(id));
-  }
-
-  edit(timesheet: Timesheet) {
-    this._store.dispatch(
-      new actions.SetTimesheetRowEditing({ id: timesheet.id, isEditing: true })
-    );
-    const { hours, minutes } = this._timeHelperSvc.secondsToHoursAndMinutes(
-      timesheet.duration
-    );
-    this.formData = this.fb.group({
-      id: [timesheet.id],
-      title: [timesheet.title],
-      type: [timesheet.type],
-      hours: [hours],
-      minutes: [minutes],
-      duration: [timesheet.duration],
-      hourlyRate: [timesheet.hourlyRate]
-    });
-    this.watchFormChanges();
-  }
-
-  watchFormChanges() {
-    this.formChangeSub = this.formData.valueChanges.subscribe(data => {
-      const { hours, minutes } = data;
-      const newDuration = this._timeHelperSvc.minutesAndHoursToSeconds(
-        hours,
-        minutes
-      );
-      this.editingData = { ...data, duration: newDuration };
-    });
-  }
-
-  cancel(timesheet: Timesheet) {
-    this.isDraft(timesheet)
-      ? this._store.dispatch(new actions.CancelTimesheetDraft())
-      : this._store.dispatch(
-          new actions.SetTimesheetRowEditing({
-            id: timesheet.id,
-            isEditing: false
-          })
-        );
-  }
-
-  updateSelection(event: MatCheckboxChange, timesheet: Timesheet) {
-    this._store.dispatch(
-      new actions.UpdateTimesheetSelection({
-        id: timesheet.id,
-        isSelected: event.checked
-      })
-    );
+  onDelete(timesheet: Timesheet) {
+    this.timesheetService.delete(timesheet);
   }
 
   submit() {
-    this._store.dispatch(new actions.SubmitTimesheetEntriesStart());
   }
 
-  isDraft(timesheet: Timesheet) {
-    return timesheet.id === DraftRowId;
+  createDraft(event) {
+    this.draft = event;
   }
 
-  isEditing(timesheet: Timesheet) {
-    return timesheet.isEditing;
-  }
 
-  isActive(timesheet: Timesheet) {
-    return (
-      !this.isDraft(timesheet) &&
-      !this.isEditing(timesheet) &&
-      timesheet.state === TimesheetStates.Active
-    );
-  }
 }
