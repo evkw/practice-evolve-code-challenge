@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TimesheetDurationPipe } from './timesheet-duration.pipe';
-import { Timesheet } from '../models';
+import { DurationPipe } from './duration.pipe';
 import { TimeHelperService } from '@shared/services/time-helper.service';
 
 describe('TimesheetDurationPipe', () => {
@@ -8,7 +7,7 @@ describe('TimesheetDurationPipe', () => {
 
   it('create an instance', () => {
     const service: TimeHelperService = TestBed.get(TimeHelperService);
-    const pipe = new TimesheetDurationPipe(service);
+    const pipe = new DurationPipe(service);
     expect(pipe).toBeTruthy();
   });
 
@@ -22,8 +21,8 @@ describe('TimesheetDurationPipe', () => {
     testCases.forEach(testCase => {
       it(`should pipe duration ${testCase.test.duration} to format ${testCase.result}`, () => {
         const service: TimeHelperService = TestBed.get(TimeHelperService);
-        const pipe = new TimesheetDurationPipe(service);
-        expect(pipe.transform(testCase.test as Timesheet)).toEqual(
+        const pipe = new DurationPipe(service);
+        expect(pipe.transform(null, testCase.test.duration)).toEqual(
           testCase.result
         );
       });

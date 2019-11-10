@@ -14,6 +14,4 @@ export class TextEditCellComponent<
   constructor() {
     super();
   }
-
-  ngOnInit() {}
 }

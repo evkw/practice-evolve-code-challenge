@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { Timesheet, TimesheetType } from '../../models';
 import { EntityCollectionService, EntityServices } from '@ngrx/data';
+import { TimesheetStates } from '@features/timesheet/constants';
 
 @Component({
   selector: 'app-timesheet-page',
@@ -17,6 +18,7 @@ export class TimesheetPageComponent implements OnInit {
 
   timesheetService: EntityCollectionService<Timesheet>;
   typeService: EntityCollectionService<TimesheetType>;
+  selectedEntries: Timesheet[]
   draft: any;
 
   constructor(
@@ -26,7 +28,7 @@ export class TimesheetPageComponent implements OnInit {
     this.timesheetService = entityServices.getEntityCollectionService('Timesheet');
     this.typeService = entityServices.getEntityCollectionService('Type');
     this.dataSource$ = this.timesheetService.entities$;
-    this.types$ = this.typeService.entities$.pipe(map(data => data.map(item => item.name)));;
+    this.types$ = this.typeService.entities$.pipe(map(data => data.map(item => item.name)));
   }
 
   ngOnInit() {
@@ -47,11 +49,16 @@ export class TimesheetPageComponent implements OnInit {
   }
 
   submit() {
+    this.selectedEntries.forEach(entry => {
+      this.timesheetService.update({...entry, state: TimesheetStates.Submitted})
+    });
+  }
+
+  onSelectedEntriesChanged(entries: Timesheet[]) {
+    this.selectedEntries = entries;
   }
 
   createDraft(event) {
     this.draft = event;
   }
-
-
 }

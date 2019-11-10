@@ -1,14 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { TimesheetTotalPipe } from './timesheet-total.pipe';
+import { HourlyRateTotalPipe } from './hour-rate-total.pipe';
 import { TimeHelperService } from '@shared/services/time-helper.service';
-import { Timesheet } from '../models';
 
-describe('TimesheetTotalPipe', () => {
+describe('HourlyRateTotalPipe', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('create an instance', () => {
     const service: TimeHelperService = TestBed.get(TimeHelperService);
-    const pipe = new TimesheetTotalPipe(service);
+    const pipe = new HourlyRateTotalPipe(service);
     expect(pipe).toBeTruthy();
   });
 
@@ -20,9 +19,8 @@ describe('TimesheetTotalPipe', () => {
     testCases.forEach(testCase => {
       it(`should pipe duration ${testCase.test.duration} and hourlyRate ${testCase.test.hourlyRate} to ${testCase.result}`, () => {
         const service: TimeHelperService = TestBed.get(TimeHelperService);
-        const pipe = new TimesheetTotalPipe(service);
-        expect(pipe.transform(testCase.test as Timesheet)).toEqual(
-          testCase.result
+        const pipe = new HourlyRateTotalPipe(service);
+        expect(pipe.transform(null, testCase.test.duration, testCase.test.hourlyRate)).toEqual(testCase.result
         );
       });
     });
@@ -37,7 +35,7 @@ describe('TimesheetTotalPipe', () => {
     testCases.forEach(testCase => {
       it(`should calculate hours ${testCase.test.hours} and hourlyRate ${testCase.test.hourlyRate} to ${testCase.result}`, () => {
         const service: TimeHelperService = TestBed.get(TimeHelperService);
-        const pipe = new TimesheetTotalPipe(service);
+        const pipe = new HourlyRateTotalPipe(service);
         expect(
           pipe.calculateRateForHours(
             testCase.test.hours,
@@ -57,7 +55,7 @@ describe('TimesheetTotalPipe', () => {
     testCases.forEach(testCase => {
       it(`should round ${testCase.test.minutes} minutes to next 15 and calculate with hourlyRate ${testCase.test.hourlyRate} to ${testCase.result}`, () => {
         const service: TimeHelperService = TestBed.get(TimeHelperService);
-        const pipe = new TimesheetTotalPipe(service);
+        const pipe = new HourlyRateTotalPipe(service);
         expect(
           pipe.calculateRateForMinutes(
             testCase.test.minutes,

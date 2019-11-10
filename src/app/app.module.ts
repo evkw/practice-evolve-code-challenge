@@ -9,11 +9,24 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { EffectsModule } from '@ngrx/effects';
-import { EntityDataModule } from '@ngrx/data';
+import { EntityDataModule, DefaultDataServiceConfig } from '@ngrx/data';
 import { entityConfig } from './entity-metadata';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemDataService } from '@core/in-memory-data.service';
+
+const defaultDataServiceConfig: DefaultDataServiceConfig = {
+  root: 'api',
+  entityHttpResourceUrls: {
+    Timesheet: {
+      entityResourceUrl: 'api/timesheet/',
+      collectionResourceUrl: 'api/timesheet/'
+    }
+  },
+
+  timeout: 3000, // request timeout
+};
+
 
 @NgModule({
   imports: [
@@ -33,6 +46,7 @@ import { InMemDataService } from '@core/in-memory-data.service';
     EntityDataModule.forRoot(entityConfig)
   ],
   declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [{ provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig }]
 })
 export class AppModule { }

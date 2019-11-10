@@ -1,18 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Timesheet } from '../models';
 import { TimeHelperService } from '@shared/services/time-helper.service';
 
 @Pipe({
-  name: 'timesheetTotal'
+  name: 'hourlyTotal'
 })
-export class TimesheetTotalPipe implements PipeTransform {
+export class HourlyRateTotalPipe implements PipeTransform {
   constructor(private timeHelperSvc: TimeHelperService) {}
 
-  transform(value: Timesheet, args?: any): any {
-    const { duration, hourlyRate } = value;
-    const { hours, minutes } = this.timeHelperSvc.secondsToHoursAndMinutes(
-      duration
-    );
+  transform(value: any, duration: number, hourlyRate: number): any {
+    const { hours, minutes } = this.timeHelperSvc.secondsToHoursAndMinutes(duration);
 
     const hourRate = this.calculateRateForHours(hours, hourlyRate);
     const minuteRate = this.calculateRateForMinutes(minutes, hourlyRate);

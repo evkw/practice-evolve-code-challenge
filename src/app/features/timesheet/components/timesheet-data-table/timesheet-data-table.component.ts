@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Timesheet, TimesheetType } from '@features/timesheet/models';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Timesheet } from '@features/timesheet/models';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TimeHelperService } from '@shared/services/time-helper.service';
 import { DraftRowId, TimesheetStates, DraftRowInit } from '@features/timesheet/constants';
-import { Subscription } from 'rxjs';
+import { Subscription, BehaviorSubject } from 'rxjs';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-timesheet-data-table',
@@ -23,6 +24,7 @@ export class TimesheetDataTableComponent implements OnInit {
     'menu'
   ];
 
+  focus$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   formData: FormGroup;
   draftRow: Timesheet;
   formChangeSub: Subscription;
@@ -39,6 +41,7 @@ export class TimesheetDataTableComponent implements OnInit {
   @Output() add = new EventEmitter<Timesheet>();
   @Output() update = new EventEmitter<Timesheet>();
   @Output() delete = new EventEmitter<Timesheet>();
+  @Output() selectedEntries = new EventEmitter<Timesheet[]>();
 
   constructor(private fb: FormBuilder,
     private _timeHelperSvc: TimeHelperService) { }
@@ -48,7 +51,7 @@ export class TimesheetDataTableComponent implements OnInit {
 
   addDraftRow() {
     if (!!this.draftRow) {
-      //focus on row;
+      this.focus$.next(true);
     } else {
       this.draftRow = DraftRowInit;
       this.dataSource = [this.draftRow, ...this.dataSource]
@@ -62,25 +65,12 @@ export class TimesheetDataTableComponent implements OnInit {
     );
     this.formData = this.fb.group({
       id: [timesheet.id],
-      title: [timesheet.title],
-      type: [timesheet.type],
-      hours: [hours],
-      minutes: [minutes],
+      title: [timesheet.title, Validators.required],
+      type: [timesheet.type, Validators.required],
+      hours: [hours, [Validators.min(0)]],
+      minutes: [minutes, [Validators.min(0), Validators.max(59)]],
       duration: [timesheet.duration],
-      hourlyRate: [timesheet.hourlyRate],
-    });
-
-    this.syncTimesheetTotal() 
-  }
-
-  syncTimesheetTotal() {
-    this.formChangeSub = this.formData.valueChanges.subscribe(data => {
-      const { hours, minutes } = data;
-      const duration = this._timeHelperSvc.minutesAndHoursToSeconds(
-        hours,
-        minutes
-      );
-      this.formData.patchValue({duration}, {emitEvent: false})
+      hourlyRate: [timesheet.hourlyRate, [Validators.min(0)]],
     });
 
   }
@@ -88,6 +78,12 @@ export class TimesheetDataTableComponent implements OnInit {
   edit(timesheet: Timesheet) {
     this.cancel();
     this.initForm(timesheet);
+    this.dataSource = this.dataSource.map(data => data.id === timesheet.id ? Object.assign({}, data, { isEditing: true }) : data);
+  }
+
+  toggleSelected(timesheet: Timesheet) {
+    this.dataSource = this.dataSource.map(data => data.id === timesheet.id ? Object.assign({}, data, { isSelected: !data.isSelected }) : data);
+    this.selectedEntries.emit(this.dataSource.filter(data => data.isSelected === true));
   }
 
   cancel() {
@@ -95,12 +91,14 @@ export class TimesheetDataTableComponent implements OnInit {
       this.dataSource = this.dataSource.filter(data => data.id !== DraftRowId);
       this.draftRow = null;
     } else {
-      // revert from edit
+      this.dataSource = this.dataSource.map(data => Object.assign({}, data, { isEditing: false }));
     }
   }
 
   save() {
-    this.add.emit(this.formData.getRawValue());
+    const value = this.formDataToTimesheet();
+    !!this.draftRow ? this.add.emit(value) : this.update.emit(value);
+    this.draftRow = null;
   }
 
   deleteTimesheet(timesheet: Timesheet) {
@@ -121,6 +119,23 @@ export class TimesheetDataTableComponent implements OnInit {
       !this.isEditing(timesheet) &&
       timesheet.state === TimesheetStates.Active
     );
+  }
+
+
+
+  formDataToTimesheet(): Timesheet {
+    const { id, hours, minutes, title, type, hourlyRate } = this.formData.getRawValue();
+    return <Timesheet>{
+      title,
+      type,
+      hourlyRate,
+      id: !!this.draftRow ? UUID.UUID() : id,
+      state: TimesheetStates.Active,
+      created: new Date(),
+      duration: this._timeHelperSvc.minutesAndHoursToSeconds(hours, minutes),
+      isEditing: false,
+      isSelected: false
+    }
   }
 
 }

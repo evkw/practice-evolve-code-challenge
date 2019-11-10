@@ -8,6 +8,7 @@
     [createDraft]="draft"
     (add)="onAdd($event)" 
     (update)="onUpdate($event)"
-    (delete)="onDelete($event)">
+    (delete)="onDelete($event)"
+    (selectedEntries)="onSelectedEntriesChanged($event)">
 
 </app-timesheet-data-table>

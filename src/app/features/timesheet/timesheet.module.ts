@@ -11,8 +11,6 @@ import {
 
 import { TimesheetPageComponent } from './page/timesheet-page/timesheet-page.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { TimesheetTotalPipe } from './pipes/timesheet-total.pipe';
-import { TimesheetDurationPipe } from './pipes/timesheet-duration.pipe';
 import { TimesheetDataTableComponent } from './components/timesheet-data-table/timesheet-data-table.component';
 
 @NgModule({
@@ -28,11 +26,8 @@ import { TimesheetDataTableComponent } from './components/timesheet-data-table/t
   ],
   declarations: [
     TimesheetPageComponent,
-    TimesheetTotalPipe,
-    TimesheetDurationPipe,
     TimesheetDataTableComponent
   ],
   exports: [TimesheetPageComponent],
-  providers: [TimesheetTotalPipe]
 })
 export class TimesheetModule {}
