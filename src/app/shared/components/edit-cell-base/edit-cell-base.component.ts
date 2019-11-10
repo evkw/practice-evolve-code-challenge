@@ -10,6 +10,7 @@ export class EditCellBaseComponent<T extends IsEditable> {
   constructor() {}
 
   isEditing() {
+    console.log(this.data);
     return this.data.isEditing;
   }
 }

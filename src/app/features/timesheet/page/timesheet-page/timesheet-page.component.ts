@@ -28,7 +28,6 @@ export class TimesheetPageComponent implements OnInit {
     'menu'
   ];
   dataSource$: Observable<Timesheet[]>;
-  editingRow$: Observable<Timesheet>;
   formData: FormGroup;
   editingData: Timesheet;
 
@@ -63,7 +62,6 @@ export class TimesheetPageComponent implements OnInit {
   }
 
   edit(timesheet: Timesheet) {
-    this.editingRow$ = of(timesheet);
     this._store.dispatch(
       new actions.SetTimesheetRowEditing({ id: timesheet.id, isEditing: true })
     );

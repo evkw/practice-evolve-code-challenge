@@ -132,6 +132,15 @@
       *matCellDef="let timesheet"
       class="timesheet-table__menu timesheet-table__cell--size-12"
     >
+      <ng-container *ngIf="isEditing(timesheet)">
+        <button mat-button (click)="save(timesheet)">Save</button>
+        <button mat-button (click)="cancel(timesheet)">Cancel</button>
+      </ng-container>
+
+      <ng-container *ngIf="isActive(timesheet)">
+        <button mat-button (click)="edit(timesheet)">Edit</button>
+        <button mat-button (click)="delete(timesheet.id)">Delete</button>
+      </ng-container>
     </mat-cell>
   </ng-container>
 
