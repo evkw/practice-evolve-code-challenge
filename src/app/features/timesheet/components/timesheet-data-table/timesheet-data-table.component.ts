@@ -70,7 +70,7 @@ export class TimesheetDataTableComponent implements OnInit {
       hours: [hours, [Validators.min(0)]],
       minutes: [minutes, [Validators.min(0), Validators.max(59)]],
       duration: [timesheet.duration],
-      hourlyRate: [timesheet.hourlyRate, [Validators.min(0)]],
+      hourlyRate: [timesheet.hourlyRate, [Validators.required, Validators.min(0)]],
     });
 
   }
@@ -96,9 +96,12 @@ export class TimesheetDataTableComponent implements OnInit {
   }
 
   save() {
-    const value = this.formDataToTimesheet();
-    !!this.draftRow ? this.add.emit(value) : this.update.emit(value);
-    this.draftRow = null;
+    console.log(this.formData.invalid);
+    if(this.formData.invalid === false) {
+      const value = this.formDataToTimesheet();
+      !!this.draftRow ? this.add.emit(value) : this.update.emit(value);
+      this.draftRow = null;
+    }
   }
 
   deleteTimesheet(timesheet: Timesheet) {
@@ -120,9 +123,7 @@ export class TimesheetDataTableComponent implements OnInit {
       timesheet.state === TimesheetStates.Active
     );
   }
-
-
-
+  
   formDataToTimesheet(): Timesheet {
     const { id, hours, minutes, title, type, hourlyRate } = this.formData.getRawValue();
     return <Timesheet>{

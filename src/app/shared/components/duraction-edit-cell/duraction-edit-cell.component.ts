@@ -15,4 +15,21 @@ export class DuractionEditCellComponent<
   }
 
   ngOnInit() {}
+
+  getMinutesErrorMessage() {
+    return '0 - 59'
+  }
+
+  getHoursErrorMessage() {
+    return '> 0'
+  }
+
+  minutesIsInvalid() {
+    return this.form.get('minutes').invalid === true;
+
+  }
+
+  hoursIsInvalid() {
+    return this.form.get('hours').invalid === true;
+  }
 }

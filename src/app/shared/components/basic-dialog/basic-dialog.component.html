@@ -1,0 +1,11 @@
+<div class="basic-dialog">
+    <mat-icon [ngClass]="dialogIconClass">{{dialogIcon}}</mat-icon>
+    <h1 mat-dialog-title>{{data?.title}}</h1>
+    <div mat-dialog-content>
+        <p>{{data.messsage}}</p>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onOkClick()">{{okText}}</button>
+        <button mat-button (click)="onNoClick()">{{cancelText}}</button>
+    </div>
+</div>

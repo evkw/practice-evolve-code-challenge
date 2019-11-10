@@ -6,7 +6,8 @@ import {
   MatButtonModule,
   MatInputModule,
   MatCheckboxModule,
-  MatSelectModule
+  MatSelectModule,
+  MatDialogModule
 } from '@angular/material';
 
 import { TimesheetPageComponent } from './page/timesheet-page/timesheet-page.component';
@@ -22,7 +23,8 @@ import { TimesheetDataTableComponent } from './components/timesheet-data-table/t
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
-    SharedModule
+    SharedModule,
+    MatDialogModule
   ],
   declarations: [
     TimesheetPageComponent,

@@ -1,0 +1,22 @@
+.basic-dialog {
+    &__icon {
+        &--warning {
+            color: #ffcc00
+        }
+    
+        &--info {
+            color: blue;
+        }
+    
+        &--error {
+            color: 	#cc3300;
+        }
+    }
+    
+}
+
+.mat-icon {
+    font-size: 50px;
+    width: 100%;
+    text-align: center;
+  }

@@ -6,6 +6,7 @@
           item
         }}</mat-option>
       </mat-select>
+      <mat-error *ngIf="isInvalid()">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
   </form>
 </ng-container>
