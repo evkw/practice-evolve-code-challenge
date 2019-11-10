@@ -14,7 +14,6 @@ export class DuractionEditCellComponent<
     super();
   }
 
-  ngOnInit() {}
 
   getMinutesErrorMessage() {
     return '0 - 59'

@@ -1,7 +1,11 @@
-import { OnInit, Input } from '@angular/core';
+import { OnInit, Input, Component } from '@angular/core';
 import { IsEditable } from '@shared/models';
 import { FormGroup } from '@angular/forms';
 
+@Component({
+  selector: 'app-base-edit-cell',
+  template: '<div></div>'
+})
 export class EditCellBaseComponent<T extends IsEditable> {
   @Input() form: FormGroup;
   @Input() controlName: string;

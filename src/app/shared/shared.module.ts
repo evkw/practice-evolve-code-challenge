@@ -6,11 +6,12 @@ import { MatInputModule, MatSelectModule, MatDialogModule, MatButtonModule, MatI
 import { TimeHelperService } from './services/time-helper.service';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { sharedPipes } from './pipes';
+import { EditCellBaseComponent } from './components/edit-cell-base/edit-cell-base.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatDialogModule, MatButtonModule, MatIconModule],
-  declarations: [...sharedComponents, ...sharedPipes, AutofocusDirective],
-  exports: [...sharedComponents, ...sharedPipes, AutofocusDirective],
+  declarations: [...sharedComponents, ...sharedPipes, AutofocusDirective, EditCellBaseComponent],
+  exports: [...sharedComponents, ...sharedPipes, AutofocusDirective, EditCellBaseComponent],
   entryComponents: [BasicDialogComponent],
   providers: [TimeHelperService]
 })

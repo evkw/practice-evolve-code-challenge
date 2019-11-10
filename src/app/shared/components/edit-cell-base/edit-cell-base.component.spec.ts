@@ -1,25 +1,29 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { EditCellBaseComponent } from './edit-cell-base.component';
+import { EditCellBaseComponent } from './edit-cell-base.component';
+import { SharedModule } from '@shared/shared.module';
+import { IsEditable } from '@shared/models';
 
-// describe('EditCellBaseComponent', () => {
-//   let component: EditCellBaseComponent;
-//   let fixture: ComponentFixture<EditCellBaseComponent>;
+export interface EditMockCellBase extends IsEditable {}
 
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ EditCellBaseComponent ]
-//     })
-//     .compileComponents();
-//   }));
+describe('EditCellBaseComponent', () => {
+  let component: EditCellBaseComponent<EditMockCellBase>;
+  let fixture: ComponentFixture<EditCellBaseComponent<EditMockCellBase>>;
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(EditCellBaseComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [SharedModule]
+    })
+    .compileComponents();
+  }));
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(EditCellBaseComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
