@@ -9,7 +9,7 @@ export const DraftRowId = '-1';
 
 export const DraftRowInit: Timesheet = {
     id: DraftRowId,
-    state: null,
+    state: TimesheetStates.Active,
     title: null,
     type: null,
     duration: 0,

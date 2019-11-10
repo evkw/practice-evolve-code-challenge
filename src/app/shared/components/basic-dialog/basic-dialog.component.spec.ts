@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BasicDialogComponent } from './basic-dialog.component';
+import { SharedModule } from '@shared/shared.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 describe('BasicDialogComponent', () => {
   let component: BasicDialogComponent;
@@ -8,7 +11,11 @@ describe('BasicDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BasicDialogComponent ]
+      imports: [SharedModule, NoopAnimationsModule],
+      providers: [
+        {provide: MatDialogRef, useValue: {}},
+        {provide: MAT_DIALOG_DATA, useValue: {}},
+      ],
     })
     .compileComponents();
   }));
