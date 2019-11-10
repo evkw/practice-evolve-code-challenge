@@ -47,4 +47,25 @@ describe('TimeHelperService', () => {
       });
     });
   });
+
+  describe('minutesAndHoursToSeconds', () => {
+    const testCases = [
+      { test: { hours: 0, minutes: 15 }, result: 900 },
+      { test: { hours: 0, minutes: 59 }, result: 3540 },
+      { test: { hours: 1, minutes: 0 }, result: 3600 },
+      { test: { hours: 2, minutes: 15 }, result: 8100 },
+      { test: { hours: 2, minutes: 30 }, result: 9000 },
+    ];
+
+    testCases.forEach(testCase => {
+      it(`should convert ${testCase.test.hours} hours and ${testCase.test.minutes} minutes to  ${testCase.result} seconds`, () => {
+        const service: TimeHelperService = TestBed.get(TimeHelperService);
+        const result = service.minutesAndHoursToSeconds(
+          testCase.test.hours,
+          testCase.test.minutes
+        );
+        expect(result).toEqual(testCase.result);
+      });
+    });
+  });
 });

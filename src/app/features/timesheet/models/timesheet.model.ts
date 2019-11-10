@@ -5,7 +5,6 @@ export interface Timesheet extends IsEditable, IsSelectable {
   state: string;
   title: string;
   type: string;
-  created: Date;
   duration: number;
   hourlyRate: number;
 }

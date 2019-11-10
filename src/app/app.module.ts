@@ -15,7 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemDataService } from '@core/in-memory-data.service';
 
-const defaultDataServiceConfig: DefaultDataServiceConfig = {
+export const defaultDataServiceConfig: DefaultDataServiceConfig = {
   root: 'api',
   entityHttpResourceUrls: {
     Timesheet: {

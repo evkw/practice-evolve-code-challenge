@@ -12,7 +12,6 @@ export class InMemDataService implements InMemoryDbService {
                 type: 'Telephone Call',
                 duration: 7200,
                 hourlyRate: 250.5,
-                created: new Date('1995-12-17T03:24:00'),
                 isEditing: false,
                 isSelected: false
             },
@@ -23,7 +22,6 @@ export class InMemDataService implements InMemoryDbService {
                 type: 'Research and Drafting Document',
                 duration: 10980,
                 hourlyRate: 120.0,
-                created: new Date('1990-12-17T03:24:00'),
                 isEditing: false,
                 isSelected: false
             }

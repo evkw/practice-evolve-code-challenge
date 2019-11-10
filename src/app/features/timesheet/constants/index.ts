@@ -13,7 +13,6 @@ export const DraftRowInit: Timesheet = {
     title: null,
     type: null,
     duration: 0,
-    created: null,
     hourlyRate: 250.5,
     isEditing: true,
     isSelected: false,

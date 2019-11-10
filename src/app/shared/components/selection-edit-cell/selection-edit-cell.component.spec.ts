@@ -1,25 +1,29 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { SelectionEditCellComponent } from './selection-edit-cell.component';
+import { SelectionEditCellComponent } from './selection-edit-cell.component';
+import { IsEditable } from '@shared/models';
+import { SharedModule } from '@shared/shared.module';
 
-// describe('SelectionEditCellComponent', () => {
-//   let component: SelectionEditCellComponent;
-//   let fixture: ComponentFixture<SelectionEditCellComponent>;
+interface MockModel extends IsEditable { }
 
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ SelectionEditCellComponent ]
-//     })
-//     .compileComponents();
-//   }));
+describe('SelectionEditCellComponent', () => {
+    let component: SelectionEditCellComponent<MockModel>;
+    let fixture: ComponentFixture<SelectionEditCellComponent<MockModel>>;
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(SelectionEditCellComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [SharedModule]
+        })
+            .compileComponents();
+    }));
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(SelectionEditCellComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+});

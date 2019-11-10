@@ -14,15 +14,15 @@ export class BasicDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
     get okText() {
-      return !!this.data.okText ? this.data.okText : 'Ok'
+      return !!this.data && !!this.data.okText ? this.data.okText : 'Ok'
     }
 
     get cancelText() {
-      return !!this.data.cancelText ? this.data.cancelText : 'Cancel'
+      return !!this.data && !!this.data.cancelText ? this.data.cancelText : 'Cancel'
     }
 
     get dialogIcon() {
-      return !!this.data.type ? this.data.type : 'info'
+      return !!this.data && !!this.data.type ? this.data.type : 'info'
     }
 
     get dialogIconClass() {

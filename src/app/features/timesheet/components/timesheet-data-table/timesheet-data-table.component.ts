@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Timesheet } from '@features/timesheet/models';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TimeHelperService } from '@shared/services/time-helper.service';
@@ -11,7 +11,7 @@ import { UUID } from 'angular2-uuid';
   templateUrl: './timesheet-data-table.component.html',
   styleUrls: ['./timesheet-data-table.component.scss']
 })
-export class TimesheetDataTableComponent implements OnInit {
+export class TimesheetDataTableComponent {
 
   displayedColumns: string[] = [
     'select',
@@ -45,9 +45,6 @@ export class TimesheetDataTableComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private _timeHelperSvc: TimeHelperService) { }
-
-  ngOnInit() {
-  }
 
   addDraftRow() {
     if (!!this.draftRow) {
@@ -96,8 +93,7 @@ export class TimesheetDataTableComponent implements OnInit {
   }
 
   save() {
-    console.log(this.formData.invalid);
-    if(this.formData.invalid === false) {
+    if (this.formData.invalid === false) {
       const value = this.formDataToTimesheet();
       !!this.draftRow ? this.add.emit(value) : this.update.emit(value);
       this.draftRow = null;
@@ -123,7 +119,7 @@ export class TimesheetDataTableComponent implements OnInit {
       timesheet.state === TimesheetStates.Active
     );
   }
-  
+
   formDataToTimesheet(): Timesheet {
     const { id, hours, minutes, title, type, hourlyRate } = this.formData.getRawValue();
     return <Timesheet>{
@@ -132,7 +128,6 @@ export class TimesheetDataTableComponent implements OnInit {
       hourlyRate,
       id: !!this.draftRow ? UUID.UUID() : id,
       state: TimesheetStates.Active,
-      created: new Date(),
       duration: this._timeHelperSvc.minutesAndHoursToSeconds(hours, minutes),
       isEditing: false,
       isSelected: false

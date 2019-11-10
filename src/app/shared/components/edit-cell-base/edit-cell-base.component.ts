@@ -24,12 +24,18 @@ export class EditCellBaseComponent<T extends IsEditable> {
 
   getErrorMessage() {
     const errors = this.form.get(this.controlName).errors;
+    if(errors == null) {
+      return 'Error';
+    }
+
     if(!!errors['required']) {
       return 'Required';
     }
+
     if(!!errors['min']) {
       return `> than ${errors['min'].min}`
     }
-    return 'Error'
+
+    return 'Error';
   }
 }

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { Timesheet, TimesheetType } from '../../models';
 import { EntityCollectionService, EntityServices } from '@ngrx/data';
 import { TimesheetStates } from '@features/timesheet/constants';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { DialogData } from '@shared/models/dialog.model';
 import { BasicDialogComponent } from '@shared/components';
 
